@@ -27,6 +27,7 @@ var Recorder = function( config ){
     resampleQuality: 3,
     streamPages: false,
     reuseWorker: false,
+    prependHeaders: true,
     wavBitDepth: 16,
   }, config );
 
@@ -219,7 +220,9 @@ Recorder.prototype.start = function( sourceNode ){
       this.sourceNode = results[0];
       this.state = "recording";
       this.onstart();
-      this.encoder.postMessage({ command: 'getHeaderPages' });
+      if (this.config.prependHeaders) {
+        this.encoder.postMessage({ command: 'getHeaderPages' });
+      }
       this.sourceNode.connect( this.monitorGainNode );
       this.sourceNode.connect( this.recordingGainNode );
     });
