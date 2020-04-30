@@ -1,35 +1,16 @@
 {
-  "name": "opus-recorder",
-  "version": "6.1.1",
+  "name": "@spoken-biography/opus-recorder",
+  "version": "6.2.0",
   "description": "A library for recording opus encoded audio",
-  "homepage": "https://github.com/chris-rudmin/opus-recorder",
-  "author": "Chris Rudmin",
-  "keywords": [
-    "Ogg",
-    "Opus",
-    "PCM",
-    "Decoder",
-    "Resampler",
-    "Streamer",
-    "Audio",
-    "Microphone",
-    "Recorder",
-    "Wav",
-    "Wave",
-    "WebAssembly"
-  ],
-  "license": "MIT",
+  "homepage": "https://github.com/SpokenBiography/opus-recorder",
+  "author": "Nicholas Hirsch",
   "main": "src/recorder.js",
   "files": [
     "dist/"
   ],
   "repository": {
     "type": "git",
-    "url": "git://github.com/chris-rudmin/opus-recorder.git"
-  },
-  "bugs": {
-    "url": "https://github.com/chris-rudmin/opus-recorder/issues",
-    "email": "chris.rudmin@gmail.com"
+    "url": "git+ssh://git@github.com/SpokenBiography/opus-recorder.git"
   },
   "scripts": {
     "make": "make",
