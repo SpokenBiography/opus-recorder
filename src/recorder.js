@@ -165,23 +165,37 @@ Recorder.prototype.initWorker = function(){
 };
 
 Recorder.prototype.pause = function( flush ) {
+  var encoder = this.encoder;
+
+  var createFlushPromise = function() {
+    return new Promise((resolve, reject) => {
+      var callback = (e) => {
+        if ( e["data"]["message"] === 'flushed' ) {
+          encoder.removeEventListener( "message", callback );
+          resolve();
+        }
+      };
+
+      encoder.addEventListener( "message", callback );
+      encoder.postMessage( { command: "flush" } );
+    });
+  }
+
   if ( this.state === "recording" ) {
     this.state = "paused";
+
     if ( flush && this.config.streamPages ) {
-      var encoder = this.encoder;
-      return new Promise((resolve, reject) => {
-        var callback = (e) => {
-          if ( e["data"]["message"] === 'flushed' ) {
-            encoder.removeEventListener( "message", callback );
-            this.onpause();
-            resolve();
-          }
-        };
-        encoder.addEventListener( "message", callback );
-        encoder.postMessage( { command: "flush" } );
-      });
+      return createFlushPromise().then(function() { this.onpause(); })
     }
+
     this.onpause();
+
+    return Promise.resolve();
+  } else if ( this.state === "paused" ) {
+    if ( flush && this.config.streamPages ) {
+      return createFlushPromise();
+    }
+
     return Promise.resolve();
   }
 };
